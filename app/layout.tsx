@@ -9,28 +9,25 @@ const metaPixelScript = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=functi
 
 export const metadata: Metadata = {
   metadataBase: new URL(publicUrl),
-  title: "Super Pack +2.000 Clipes Full HD | BrazHits",
-  description: "Mais de 2.000 clipes em Full HD, organizados por gênero para sua multimídia. Acesso vitalício e atualizações mensais.",
+  title: "BrazHits | Clipes e Músicas para Multimídia",
+  description: "Packs de clipes em Full HD e músicas organizados para carro, TV, PC e telão. Acesso vitalício e sem mensalidade.",
   alternates: { canonical: publicUrl },
   icons: { icon: `${publicUrl}logo-brazhits.png`, apple: `${publicUrl}logo-brazhits.png` },
   openGraph: {
     url: publicUrl,
-    title: "+2.000 Clipes em Full HD | BrazHits",
-    description: "Todos os ritmos e muita qualidade para sua multimídia.",
+    title: "BrazHits | Clipes e Músicas para Multimídia",
+    description: "Clipes em Full HD e músicas organizados para você baixar e reproduzir em qualquer tela.",
     type: "website",
     locale: "pt_BR",
     images: [{ url: ogImage, width: 1736, height: 909, alt: "BrazHits — mais de 2.000 clipes em Full HD" }],
   },
-  twitter: { card: "summary_large_image", title: "+2.000 Clipes em Full HD | BrazHits", description: "Clipes organizados por gênero para carro, TV, PC e festas.", images: [ogImage] },
+  twitter: { card: "summary_large_image", title: "BrazHits | Clipes e Músicas para Multimídia", description: "Packs organizados para carro, TV, PC e telão.", images: [ogImage] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         <script dangerouslySetInnerHTML={{ __html: utmifyPixelScript }} />
         <script dangerouslySetInnerHTML={{ __html: metaPixelScript }} />
       </head>
@@ -41,4 +38,3 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
-

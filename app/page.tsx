@@ -1,158 +1,208 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 
-const BASE_PATH = process.env.NEXT_PUBLIC_DEPLOY_BASE_PATH ?? "";
-const CHECKOUT = "https://checkout.brazhits.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
-const WHATSAPP = "https://wa.me/5538984020274?text=Ol%C3%A1!%20Vim%20pelo%20suporte%20do%20Pack%20de%20Clipes";
+const CHECKOUT_COMPLETE = "https://checkout.brazhits.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
+const CHECKOUT_SERTANEJO = "https://checkout.brazhits.com.br/checkout/cms52ikdc02i901px1sn02df1?offer=hmf38kc";
+const WHATSAPP = "https://wa.me/5538984020274?text=Ol%C3%A1!%20Vim%20pelo%20suporte%20da%20BrazHits";
 
 const testimonials = [
-  ["João Carlos", "Finalmente achei tudo com a mesma qualidade. Passei para o pen drive e a multimídia reconheceu sem complicação."],
-  ["Marcelo Santos", "Antes eu perdia horas procurando vídeo por vídeo. Aqui veio tudo organizado e pronto para usar."],
-  ["Thiago Lima", "Uso no carro todos os dias. Tem ritmo para todo tipo de passageiro e a imagem ficou muito boa."],
-  ["Carlos Henrique", "O que mais gostei foi a organização por gênero. Dá para encontrar qualquer clipe em segundos."],
-  ["André Ferreira", "Comprei o completo e valeu muito a pena. É conteúdo demais por um preço que cabe no bolso."],
-  ["Lucas Martins", "Já recebi atualização nova no grupo. Não tem mensalidade e o atendimento respondeu rápido."],
-  ["Rafael Costa", "Na TV e no telão ficou excelente. Os arquivos são leves, bem nomeados e com ótima definição."],
-  ["Paulo Roberto", "Foi só baixar, copiar e dar o play. Exatamente o que eu queria para a central multimídia."],
+  { name: "Cliente 01", summary: "Envie aqui o print do WhatsApp deste cliente.", message: "A qualidade ficou excelente na multimídia. Veio tudo muito bem organizado!" },
+  { name: "Cliente 02", summary: "Envie aqui o próximo print de depoimento.", message: "Baixei as pastas e já consegui reproduzir. Muito mais prático do que procurar um por um." },
+  { name: "Cliente 03", summary: "Este card está pronto para receber uma imagem.", message: "Gostei demais da variedade. Agora tenho música para qualquer momento." },
+  { name: "Cliente 04", summary: "Substituiremos este modelo pelo print real.", message: "O grupo de atualizações fez toda diferença. Recomendo a BrazHits!" },
 ] as const;
 
 const faqs = [
-  ["Como recebo os clipes?", "Após a confirmação do pagamento, as instruções de acesso chegam automaticamente no seu e-mail."],
-  ["Funciona na multimídia do meu carro?", "Os arquivos são entregues em MP4 Full HD 1080p, formato amplamente compatível com centrais multimídia, TVs, PCs e telões."],
-  ["Preciso de internet para assistir?", "Não. A internet é necessária somente para baixar. Depois, você pode reproduzir os arquivos salvos quando quiser."],
-  ["Existe alguma mensalidade?", "Não. O pagamento é único, o acesso é vitalício e as atualizações mensais não têm custo adicional."],
-  ["Posso escolher quais arquivos baixar?", "Sim. Você pode baixar pastas completas ou selecionar somente os clipes que desejar."],
+  ["Como recebo meu Pack?", "Assim que o pagamento for confirmado, as instruções de acesso serão enviadas para o seu e-mail."],
+  ["Os arquivos funcionam sem internet?", "Sim. Você precisa de internet somente para baixar. Depois disso, pode reproduzir os arquivos salvos sem conexão."],
+  ["Funciona na multimídia do meu carro?", "Os clipes são entregues em MP4 Full HD 1080p, formato amplamente compatível com centrais multimídia, TVs, computadores e telões."],
+  ["Existe mensalidade?", "Não. O pagamento é único, com acesso vitalício ao conteúdo adquirido."],
+  ["Como funcionam as atualizações?", "Clientes das ofertas que incluem o Grupo VIP recebem avisos sobre atualizações mensais e novos Packs pelo WhatsApp."],
 ] as const;
 
-function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        node.classList.add("is-visible");
-        observer.unobserve(node);
-      }
-    }, { threshold: 0.12, rootMargin: "0px 0px -36px" });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  return <div ref={ref} className={`sl-reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+function Arrow() {
+  return <span className="button-arrow" aria-hidden="true" />;
+}
+function Check() {
+  return <span className="check" aria-hidden="true" />;
 }
 
-function Brand() { return <span className="sl-brand"><span>Braz</span>Hits</span>; }
-function Arrow() { return <span className="sl-arrow" aria-hidden="true" />; }
+export default function BrazHitsPrincipal() {
+  const sliderRef = useRef<HTMLDivElement>(null);
 
-function PhoneProof({ name, text, image }: { name: string; text: string; image: string }) {
-  return (
-    <div className="sl-phone">
-      <div className="sl-phone-top"><i /><span>{name}</span><b>•••</b></div>
-      <img src={`${BASE_PATH}/${image}`} alt="Cliente usando um Pack BrazHits" />
-      <div className="sl-phone-copy"><strong>“{text}”</strong><span>★★★★★</span></div>
-    </div>
-  );
-}
-
-export default function RedesignPreview() {
   useEffect(() => {
-    document.documentElement.classList.add("sl-motion");
-    return () => document.documentElement.classList.remove("sl-motion");
+    document.documentElement.classList.add("motion-ready");
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".section-reveal"));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px" });
+    nodes.forEach((node) => observer.observe(node));
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("motion-ready");
+    };
   }, []);
 
+  const moveTestimonials = (direction: number) => {
+    sliderRef.current?.scrollBy({ left: direction * Math.min(window.innerWidth * 0.82, 460), behavior: "smooth" });
+  };
+
   return (
-    <main className="sl-page">
-      <section className="sl-hero">
-        <img className="sl-hero-photo" src={`${BASE_PATH}/hero-expert-brazhits.jpeg`} alt="Especialista BrazHits em um carro com clipe reproduzindo na central multimídia" />
-        <div className="sl-hero-shade" />
-        <div className="sl-hero-light" aria-hidden="true" />
-        <div className="sl-shell sl-hero-inner">
-          <Reveal className="sl-hero-copy">
-            <div className="sl-hero-signature" aria-label="BrazHits Clipes e Músicas para Multimídia">
-              <span className="sl-hero-mark" aria-hidden="true"><i /><i /></span>
-              <span><strong>BrazHits</strong>Clipes e Músicas<br />para Multimídia</span>
-            </div>
-            <h1>Eu fiz o trabalho <em>difícil</em><br />por você.</h1>
-            <p>Todos os meses eu atualizo minha multimídia com os <strong>melhores lançamentos em clipes e músicas.</strong> Agora você só acessa as pastas, baixa e reproduz em qualquer tela — sem precisar de internet.</p>
-            <a className="sl-cta sl-hero-cta" href={CHECKOUT} target="_blank" rel="noopener noreferrer">QUERO O PACK COMPLETO <Arrow /></a>
-            <div className="sl-secure"><span aria-hidden="true" /> COMPRA 100% SEGURA</div>
-          </Reveal>
+    <main className="liquid-page">
+      <div className="ambient ambient-one" />
+      <div className="ambient ambient-two" />
+      <div className="ambient ambient-three" />
+
+      <header className="glass-nav">
+        <a className="brand" href="#inicio" aria-label="BrazHits, início"><span>Braz</span>Hits</a>
+        <a className="nav-offer" href="#ofertas">Ver oferta</a>
+      </header>
+
+      <section className="hero" id="inicio">
+        <div className="hero-copy reveal is-visible">
+          <span className="eyebrow">CLIPES E MÚSICAS PARA MULTIMÍDIA</span>
+          <h1>O melhor da música.<br /><em>Pronto para dar play.</em></h1>
+          <p>Conteúdo em alta qualidade, organizado e atualizado para você reproduzir no carro, na TV, no PC ou no telão — mesmo sem internet.</p>
+          <div className="hero-pills" aria-label="Destaques da oferta">
+            <span>Full HD 1080p</span><span>Acesso vitalício</span><span>Sem mensalidade</span>
+          </div>
         </div>
-        <a className="sl-hero-scroll" href="#conteudo" aria-label="Ver o conteúdo da página"><span /></a>
+
+        <div className="vsl-stage reveal is-visible">
+          <div className="vsl-glass">
+            <div className="vsl-placeholder">
+              <span className="video-label">VSL BRAZHITS</span>
+              <button className="play-button" type="button" aria-label="Reproduzir apresentação em vídeo"><span /></button>
+              <div className="vsl-copy"><strong>Seu vídeo de vendas entra aqui</strong><span>Envie a VSL depois para substituirmos este espaço.</span></div>
+            </div>
+          </div>
+          <a className="primary-button" href="#ofertas">Quero escolher meu Pack <Arrow /></a>
+          <p className="secure-line"><i aria-hidden="true" /> Compra protegida e acesso imediato</p>
+        </div>
       </section>
 
-      <section className="sl-proof" id="conteudo"><div className="sl-shell">
-        <Reveal className="sl-section-heading sl-compact"><span className="sl-pill">CLIENTES BRAZHITS</span><h2>De motoristas comuns<br />a <em>multimídias completas.</em></h2></Reveal>
-        <div className="sl-phone-row">
-          <Reveal delay={40}><PhoneProof name="Marcelo" image="criativo-pack-sertanejo-1080x1920.png" text="A qualidade ficou excelente na tela do carro." /></Reveal>
-          <Reveal delay={120}><PhoneProof name="Carlos" image="criativo-pack-sertanejo-9x16.png" text="Veio tudo separado e muito fácil de encontrar." /></Reveal>
+      <section className="section benefits section-reveal" id="beneficios">
+        <div className="section-heading">
+          <span className="section-kicker">PENSADO PARA SER SIMPLES</span>
+          <h2>Você baixa uma vez.<br /><em>Aproveita onde quiser.</em></h2>
+          <p>O trabalho demorado já foi feito. Você recebe conteúdo preparado para encontrar, transferir e reproduzir.</p>
         </div>
-        <Reveal className="sl-proof-note"><span>★★★★★</span><p>Mais variedade, organização e qualidade para quem gosta de dar o play sem perder tempo.</p></Reveal>
-      </div></section>
+        <div className="benefit-grid">
+          <article className="glass-card benefit-card featured">
+            <div className="icon-orb icon-play"><span /></div>
+            <span className="card-index">01</span>
+            <h3>Qualidade que aparece na tela.</h3>
+            <p>Clipes em MP4 Full HD 1080p para aproveitar cada detalhe na multimídia, na TV ou no telão.</p>
+          </article>
+          <article className="glass-card benefit-card">
+            <div className="icon-orb icon-folder"><span /></div>
+            <span className="card-index">02</span>
+            <h3>Tudo separado e fácil de encontrar.</h3>
+            <p>Pastas organizadas por gênero para você parar de perder tempo procurando arquivo por arquivo.</p>
+          </article>
+          <article className="glass-card benefit-card">
+            <div className="icon-orb icon-offline"><span /></div>
+            <span className="card-index">03</span>
+            <h3>Internet só para baixar.</h3>
+            <p>Depois de salvar os arquivos, é só conectar seu dispositivo e dar o play onde estiver.</p>
+          </article>
+        </div>
+      </section>
 
-      <div className="sl-tape" aria-hidden="true"><span>FULL HD 1080P · ORGANIZAÇÃO · TODOS OS RITMOS · ACESSO VITALÍCIO · ATUALIZAÇÕES MENSAIS ·</span></div>
+      <section className="section testimonials section-reveal" id="depoimentos">
+        <div className="section-heading testimonial-heading">
+          <div><span className="section-kicker">QUEM COMPRA, CONTA</span><h2>Experiências reais.<br /><em>Sem roteiro.</em></h2></div>
+          <div className="slider-controls" aria-label="Controles dos depoimentos">
+            <button type="button" onClick={() => moveTestimonials(-1)} aria-label="Depoimento anterior"><span /></button>
+            <button type="button" onClick={() => moveTestimonials(1)} aria-label="Próximo depoimento"><span /></button>
+          </div>
+        </div>
+        <div className="testimonial-slider" ref={sliderRef}>
+          {testimonials.map((item, index) => (
+            <article className="glass-card testimonial-card" key={item.name}>
+              <div className="whatsapp-placeholder">
+                <div className="whatsapp-top"><span>{item.name.slice(-2)}</span><strong>{item.name}</strong><i>•••</i></div>
+                <div className="chat-bubble">{item.message}</div>
+                <div className="upload-template"><span>+</span><strong>PRINT DO WHATSAPP</strong><p>{item.summary}</p></div>
+              </div>
+              <div className="testimonial-meta"><span>★★★★★</span><p>Cliente verificado · modelo {String(index + 1).padStart(2, "0")}</p></div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <section className="sl-spoiler"><div className="sl-shell">
-        <Reveal className="sl-orb-wrap"><div className="sl-orb"><span>▶</span></div><i className="sl-orbit one" /><i className="sl-orbit two" /></Reveal>
-        <Reveal className="sl-section-heading sl-compact"><span className="sl-pill">POR DENTRO DO PACK</span><h2>Um pequeno spoiler do que<br />te espera após a compra.</h2></Reveal>
-        <div className="sl-mini-grid">{[
-          ["01", "+2.000 clipes", "Um acervo completo para todos os momentos."],
-          ["02", "Full HD 1080p", "Imagem padronizada para telas pequenas e grandes."],
-          ["03", "Todos os ritmos", "Sertanejo, pagode, forró, gospel, rock e MPB."],
-          ["04", "Atualizações", "Novidades mensais sem nenhum custo adicional."],
-        ].map(([number, title, text], index) => <Reveal className="sl-mini-card" delay={index * 55} key={number}><i>{number}</i><strong>{title}</strong><p>{text}</p></Reveal>)}</div>
-      </div></section>
+      <section className="section bonuses section-reveal" id="bonus">
+        <div className="section-heading centered">
+          <span className="section-kicker">MAIS QUE UM DOWNLOAD</span>
+          <h2>Benefícios que continuam<br /><em>depois da compra.</em></h2>
+        </div>
+        <div className="bonus-shell glass-card">
+          <article><div className="bonus-icon vip-icon"><span>VIP</span></div><div><span className="bonus-number">BÔNUS 01</span><h3>Grupo VIP no WhatsApp</h3><p>Entre para o grupo exclusivo e fique por dentro das atualizações mensais e dos novos Packs.</p></div></article>
+          <article><div className="bonus-icon update-icon"><span /></div><div><span className="bonus-number">BÔNUS 02</span><h3>Atualizações mensais</h3><p>Receba novidades da BrazHits sem precisar procurar novamente tudo o que acabou de lançar.</p></div></article>
+          <article><div className="bonus-icon support-icon"><span /></div><div><span className="bonus-number">BÔNUS 03</span><h3>Suporte BrazHits</h3><p>Ficou com dúvida para acessar? Você pode falar diretamente com nossa equipe pelo WhatsApp.</p></div></article>
+        </div>
+      </section>
 
-      <section className="sl-testimonials"><div className="sl-shell">
-        <Reveal className="sl-section-heading sl-compact"><span className="sl-pill">O RESULTADO NA PRÁTICA</span><h2>Boas-vindas à era da<br /><em>multimídia de verdade.</em></h2><p>Veja o que mudou para quem trocou arquivos espalhados por uma biblioteca pronta para usar.</p></Reveal>
-        <div className="sl-testimonial-grid">{testimonials.map(([name, text], index) => <Reveal className="sl-testimonial" delay={(index % 4) * 45} key={name}><b>“</b><p>{text}</p><div><span>{name.charAt(0)}</span><small><strong>{name}</strong>Cliente verificado</small></div></Reveal>)}</div>
-      </div></section>
+      <section className="section offers section-reveal" id="ofertas">
+        <div className="section-heading centered">
+          <span className="section-kicker">ESCOLHA SUA EXPERIÊNCIA</span>
+          <h2>Um pagamento.<br /><em>Conteúdo para sempre.</em></h2>
+          <p>As duas principais ofertas da BrazHits. Escolha a que combina melhor com a sua multimídia.</p>
+        </div>
+        <div className="offer-grid">
+          <article className="glass-card offer-card recommended">
+            <span className="recommendation">MAIOR VARIEDADE</span>
+            <div className="offer-top"><span className="offer-type">SUPER PACK</span><h3>Todos os Clipes</h3><p>O maior acervo da BrazHits reunido em uma única compra.</p></div>
+            <div className="offer-amount"><strong>+2.000</strong><span>clipes em MP4<br />Full HD 1080p</span></div>
+            <ul>
+              <li><Check /> Todos os gêneros disponíveis</li><li><Check /> Pastas organizadas por ritmo</li><li><Check /> Acesso vitalício</li><li><Check /> Atualizações mensais</li><li><Check /> Grupo VIP no WhatsApp</li><li><Check /> 15 dias de garantia</li>
+            </ul>
+            <div className="price"><span>Pagamento único</span><strong><sup>R$</sup> 67<small>,00</small></strong></div>
+            <a className="offer-button" href={CHECKOUT_COMPLETE} target="_blank" rel="noopener noreferrer">Quero todos os clipes <Arrow /></a>
+          </article>
 
-      <section className="sl-steps"><div className="sl-shell">
-        <Reveal className="sl-section-heading sl-compact"><span className="sl-pill">DO DOWNLOAD AO PLAY</span><h2>As 4 etapas da sua <em>transformação.</em></h2><p>Uma experiência simples, feita para você começar a usar sem depender de conhecimento técnico.</p></Reveal>
-        <div className="sl-step-deck">{[
-          ["01", "ESCOLHA", "Garanta o Super Pack em uma compra segura."],
-          ["02", "ACESSE", "Receba as instruções diretamente no seu e-mail."],
-          ["03", "ORGANIZE", "Escolha as pastas e copie para o dispositivo."],
-          ["04", "DÊ O PLAY", "Reproduza no carro, na TV, no PC ou no telão."],
-        ].map(([number, title, text], index) => <Reveal className="sl-step-card" delay={index * 60} key={number}><div className={`sl-step-image step-${number}`}><span>{number}</span><i /><i /></div><strong>{title}</strong><p>{text}</p></Reveal>)}</div>
-      </div></section>
+          <article className="glass-card offer-card">
+            <div className="offer-top"><span className="offer-type">CLIPES + MÚSICAS</span><h3>Sertanejo Completo</h3><p>Vídeo e áudio para quem quer os maiores hits do sertanejo.</p></div>
+            <div className="offer-amount"><strong>1.500</strong><span>arquivos entre<br />MP4 e MP3</span></div>
+            <ul>
+              <li><Check /> +500 clipes sertanejos 1080p</li><li><Check /> +1.000 músicas em MP3</li><li><Check /> Sertanejo, modão e forró</li><li><Check /> Acesso vitalício</li><li><Check /> Grupo VIP no WhatsApp</li><li><Check /> 15 dias de garantia</li>
+            </ul>
+            <div className="price"><span>Pagamento único</span><strong><sup>R$</sup> 26<small>,90</small></strong></div>
+            <a className="offer-button secondary" href={CHECKOUT_SERTANEJO} target="_blank" rel="noopener noreferrer">Quero clipes + músicas <Arrow /></a>
+          </article>
+        </div>
+      </section>
 
-      <section className="sl-features"><div className="sl-shell">
-        <Reveal className="sl-feature-row">
-          <div className="sl-media-mock"><div className="sl-media-screen"><img src={`${BASE_PATH}/album-gusttavo.png`} alt="Clipe rodando na multimídia" /><span className="sl-media-play">▶</span></div><div className="sl-media-controls"><i /><b>0:30</b><span>▮▮▮▮▮▮▮▮</span></div></div>
-          <div className="sl-feature-copy"><span className="sl-pill">BÔNUS #01</span><h2>Uma multimídia<br /><em>para todos os gostos.</em></h2><p>Tenha o ritmo certo para cada viagem, encontro ou evento. São milhares de clipes para você alternar sem cair sempre nas mesmas músicas.</p><ul><li>Sertanejo e modão</li><li>Pagode e forró</li><li>Rock, gospel e MPB</li></ul></div>
-        </Reveal>
-        <Reveal className="sl-feature-row reverse">
-          <div className="sl-folder-mock"><div className="sl-folder-window"><header><i /><i /><i /></header>{["Sertanejo 2026", "Pagode 2026", "Forró e Arrocha", "Rock Nacional"].map((item, index) => <p key={item}><span>{index + 1}</span><b>{item}</b><small>MP4 · Full HD</small></p>)}</div><div className="sl-folder-card"><span>✓</span><strong>PRONTO PARA USAR</strong><small>Tudo no lugar certo</small></div></div>
-          <div className="sl-feature-copy"><span className="sl-pill">BÔNUS #02</span><h2>Organização<br /><em>sem bagunça.</em></h2><p>Nada de arquivos perdidos ou nomes confusos. O acervo chega separado por gênero para você encontrar o que procura em poucos segundos.</p><ul><li>Pastas separadas por gênero</li><li>Arquivos padronizados</li><li>Download simples e rápido</li></ul></div>
-        </Reveal>
-        <Reveal className="sl-feature-row">
-          <div className="sl-chat-mock"><header><span>BH</span><p><strong>Grupo VIP BrazHits</strong><small>Atualizações mensais</small></p></header><div className="sl-chat-line left">Pack atualizado! Os novos clipes já estão disponíveis.</div><div className="sl-chat-line right">Boa! Já vou baixar 👏</div><div className="sl-chat-users"><span>MC</span><span>PR</span><span>JL</span><b>+248</b></div></div>
-          <div className="sl-feature-copy"><span className="sl-pill">BÔNUS #03</span><h2>Atualizações que<br /><em>acompanham você.</em></h2><p>Entre para o grupo VIP da BrazHits e fique por dentro das atualizações mensais e de novos Packs sem pagar nada a mais.</p><ul><li>Grupo exclusivo no WhatsApp</li><li>Novidades mensais</li><li>Sem mensalidade</li></ul></div>
-        </Reveal>
-      </div></section>
+      <section className="section guarantee section-reveal">
+        <div className="guarantee-card glass-card">
+          <div className="guarantee-seal"><span>15</span><strong>DIAS</strong></div>
+          <div><span className="section-kicker">RISCO ZERO</span><h2>Você tem 15 dias<br /><em>para experimentar.</em></h2><p>Baixe, conheça o conteúdo e teste com tranquilidade. Se a oferta não fizer sentido para você, solicite o reembolso dentro do prazo de garantia.</p></div>
+        </div>
+      </section>
 
-      <section className="sl-offer" id="oferta"><div className="sl-shell">
-        <Reveal className="sl-offer-wrap">
-          <div className="sl-offer-copy"><span className="sl-pill">OFERTA ESPECIAL</span><h2>O preço da praticidade<br /><em>poderia ser o dobro.</em></h2><p>Mas hoje você pode levar o maior acervo da BrazHits por um pagamento único.</p></div>
-          <div className="sl-price-card"><Brand /><span className="sl-plan">SUPER PACK DE CLIPES</span><h3>+2.000 clipes<br />em Full HD</h3><div className="sl-price"><small>de <s>R$ 110,00</s> por</small><strong><sup>R$</sup>67<em>,00</em></strong><span>pagamento único</span></div><ul><li>Todos os Packs disponíveis</li><li>MP4 Full HD 1080p</li><li>Organizados por gênero</li><li>Acesso vitalício</li><li>Atualizações mensais</li><li>15 dias de garantia</li></ul><a className="sl-cta" href={CHECKOUT} target="_blank" rel="noopener noreferrer">QUERO O SUPER PACK <Arrow /></a><small>PIX ou cartão · acesso imediato</small></div>
-        </Reveal>
-        <Reveal className="sl-guarantee"><div className="sl-guarantee-seal"><span>15</span><strong>DIAS</strong><small>GARANTIA</small></div><div><span className="sl-pill">RISCO ZERO</span><h2>Teste por 15 dias.</h2><p>Se o conteúdo não fizer sentido para você, basta entrar em contato dentro do prazo de garantia. Você terá seu investimento devolvido de acordo com as condições da oferta.</p></div></Reveal>
-      </div></section>
+      <section className="section trust section-reveal" id="sobre">
+        <div className="trust-card">
+          <div className="trust-copy"><span className="section-kicker">QUEM ESTÁ POR TRÁS</span><h2>Prazer, somos a<br /><em>BrazHits.</em></h2><p>A BrazHits nasceu para facilitar a vida de quem queria usar a multimídia, mas encontrava arquivos espalhados, qualidade inconsistente e horas de trabalho pela frente.</p><p>Nosso trabalho é selecionar, organizar e atualizar os Packs para que o seu seja simples: acessar, baixar e dar o play.</p><div className="trust-stats"><span><strong>+2.000</strong>clipes disponíveis</span><span><strong>1080p</strong>qualidade Full HD</span><span><strong>Vitalício</strong>acesso ao conteúdo</span></div></div>
+          <div className="trust-visual glass-card"><div className="trust-logo"><span>Braz</span>Hits</div><p>Clipes e músicas para sua multimídia.</p><div className="trust-placeholder"><span>ESPAÇO PARA FOTO DA MARCA OU EQUIPE</span><p>Envie uma imagem depois para reforçarmos esta seção.</p></div></div>
+        </div>
+      </section>
 
-      <section className="sl-story"><div className="sl-shell sl-story-inner">
-        <Reveal className="sl-story-copy"><span className="sl-pill">QUEM ESTÁ POR TRÁS</span><h2>Prazer, somos a<br /><em>BrazHits.</em></h2><p>A BrazHits nasceu para resolver um problema simples: encontrar conteúdo de qualidade para multimídia não deveria exigir horas de procura.</p><p>Por isso reunimos, padronizamos e organizamos cada Pack para que você encontre tudo em um só lugar e use com liberdade.</p><a href="https://brazhits.com.br/loja/" target="_blank" rel="noopener noreferrer">CONHECER A LOJA <Arrow /></a></Reveal>
-        <Reveal className="sl-story-art" delay={80}><div className="sl-story-glow" /><div className="sl-story-image"><img src={`${BASE_PATH}/capa-sertanejo-2026-artistas-600x600.jpg`} alt="BrazHits" /></div><span><Brand /><small>Clipes e músicas para sua multimídia</small></span></Reveal>
-      </div></section>
+      <section className="section faq section-reveal" id="faq">
+        <div className="faq-grid">
+          <div className="faq-intro"><span className="section-kicker">DÚVIDAS FREQUENTES</span><h2>Antes de dar o play,<br /><em>confira aqui.</em></h2><p>Se sua dúvida não estiver na lista, nossa equipe está disponível no WhatsApp.</p><a className="support-button" href={WHATSAPP} target="_blank" rel="noopener noreferrer"><span className="support-symbol" aria-hidden="true" /> Falar com o suporte</a></div>
+          <div className="faq-list">
+            {faqs.map(([question, answer]) => <details className="glass-card" key={question}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}
+          </div>
+        </div>
+      </section>
 
-      <section className="sl-faq"><div className="sl-shell sl-faq-grid">
-        <Reveal className="sl-section-heading"><span className="sl-pill">FICOU COM DÚVIDA?</span><h2>A resposta pode<br />estar <em>aqui.</em></h2><p>Se ainda precisar, nossa equipe também atende pelo WhatsApp.</p><a className="sl-whatsapp" href={WHATSAPP} target="_blank" rel="noopener noreferrer">FALAR COM O SUPORTE <Arrow /></a></Reveal>
-        <div className="sl-faq-list">{faqs.map(([question, answer], index) => <Reveal delay={index * 45} key={question}><details><summary>{question}<span>+</span></summary><p>{answer}</p></details></Reveal>)}</div>
-      </div></section>
-
-      <footer className="sl-footer"><div className="sl-shell"><Brand /><p>© 2026 BrazHits. Todos os direitos reservados.</p><a href="#oferta">VER OFERTA <Arrow /></a></div></footer>
+      <footer className="footer"><a className="brand" href="#inicio"><span>Braz</span>Hits</a><p>© 2026 BrazHits. Todos os direitos reservados.</p><a href="#ofertas">Ver ofertas</a></footer>
     </main>
   );
 }
