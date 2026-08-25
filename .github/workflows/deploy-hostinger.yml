@@ -1,0 +1,63 @@
+name: Publicar BrazHits 2.0 na Hostinger
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-brazhits-principal
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build e deploy via FTP
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    env:
+      HOSTINGER_BUILD: "1"
+      NEXT_PUBLIC_DEPLOY_BASE_PATH: /principal
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v6
+
+      - name: Preparar pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Gerar site estático
+        run: pnpm run build:hostinger
+
+      - name: Conferir arquivos antes do envio
+        run: test -f out/index.html && test -d out/_next
+
+      - name: Publicar somente /principal/
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./out/
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          state-name: .brazhits-principal-sync.json
+          dangerous-clean-slate: false
+          log-level: minimal
+
