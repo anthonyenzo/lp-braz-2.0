@@ -118,7 +118,7 @@ a{text-decoration:none;color:inherit}
 .marquee-hero h1 em{display:inline-block;background:linear-gradient(90deg,#1677ff,#7658ff 58%,#e553ba);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:normal}
 .marquee-hero-copy>p{max-width:720px;margin:0;color:var(--muted);font-size:clamp(20px,2.2vw,25px);line-height:1.5;letter-spacing:-.02em;text-wrap:balance}
 .marquee-hero-actions{width:100%;display:flex;flex-direction:column;align-items:center}
-.marquee-hero-button{margin-top:24px;will-change:transform}
+.marquee-hero-button{margin-top:24px;will-change:transform}.marquee-hero-button:active{transform:scale(.98)}
 .marquee-stage{position:relative;width:100%;margin-top:44px;padding:18px 0 38px;overflow:hidden;mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 90%,transparent 100%)}
 .marquee-track{--marquee-gap:18px;width:max-content;display:flex;gap:var(--marquee-gap);padding-inline:9px;animation:packMarquee 42s linear infinite;will-change:transform}
 .marquee-card{flex:0 0 auto;width:clamp(156px,15vw,210px);aspect-ratio:1;margin:0;padding:7px;border:1px solid rgba(255,255,255,.95);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,255,255,.42));box-shadow:0 24px 58px rgba(48,75,132,.22),inset 0 1px 0 #fff;backdrop-filter:blur(22px);transform:rotate(-2deg)}

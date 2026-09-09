@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
 
 export interface MarqueeHeroImage {
@@ -30,18 +30,18 @@ export function AnimatedMarqueeHero({
   ctaHref,
   images,
 }: AnimatedMarqueeHeroProps) {
-  const reduceMotion = useReducedMotion();
   const repeatedImages = [...images, ...images];
 
   return (
-    <section className="marquee-hero" id="inicio">
+    <MotionConfig reducedMotion="user">
+      <section className="marquee-hero" id="inicio">
       <div className="marquee-hero-orb marquee-hero-orb-blue" aria-hidden="true" />
       <div className="marquee-hero-orb marquee-hero-orb-violet" aria-hidden="true" />
 
       <div className="marquee-hero-copy">
         <motion.span
           className="eyebrow"
-          initial={reduceMotion ? false : "hidden"}
+          initial="hidden"
           animate="visible"
           variants={entrance}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -50,7 +50,7 @@ export function AnimatedMarqueeHero({
         </motion.span>
 
         <motion.h1
-          initial={reduceMotion ? false : "hidden"}
+          initial="hidden"
           animate="visible"
           variants={entrance}
           transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
@@ -59,7 +59,7 @@ export function AnimatedMarqueeHero({
         </motion.h1>
 
         <motion.p
-          initial={reduceMotion ? false : "hidden"}
+          initial="hidden"
           animate="visible"
           variants={entrance}
           transition={{ duration: 0.6, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
@@ -69,7 +69,7 @@ export function AnimatedMarqueeHero({
 
         <motion.div
           className="marquee-hero-actions"
-          initial={reduceMotion ? false : "hidden"}
+          initial="hidden"
           animate="visible"
           variants={entrance}
           transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
@@ -80,8 +80,7 @@ export function AnimatedMarqueeHero({
           <motion.a
             className="primary-button marquee-hero-button"
             href={ctaHref}
-            whileHover={reduceMotion ? undefined : { y: -3, scale: 1.015 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+            whileHover={{ y: -3, scale: 1.015 }}
           >
             {ctaText}
             <span className="button-arrow" aria-hidden="true" />
@@ -92,7 +91,7 @@ export function AnimatedMarqueeHero({
 
       <motion.div
         className="marquee-stage"
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         aria-label="Capas dos packs disponíveis na BrazHits"
@@ -111,7 +110,8 @@ export function AnimatedMarqueeHero({
             </figure>
           ))}
         </div>
-      </motion.div>
-    </section>
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
