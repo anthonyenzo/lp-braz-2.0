@@ -1,10 +1,23 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { AnimatedMarqueeHero, type MarqueeHeroImage } from "@/components/ui/hero-3";
 
 const CHECKOUT_COMPLETE = "https://checkout.brazhits.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
 const CHECKOUT_SERTANEJO = "https://checkout.brazhits.com.br/checkout/cms52ikdc02i901px1sn02df1?offer=hmf38kc";
 const WHATSAPP = "https://wa.me/5538984020274?text=Ol%C3%A1!%20Vim%20pelo%20suporte%20da%20BrazHits";
+const BASE_PATH = process.env.NEXT_PUBLIC_DEPLOY_BASE_PATH ?? "";
+
+const heroPackImages: MarqueeHeroImage[] = [
+  { src: `${BASE_PATH}/hero-packs/sertanejo-2026.jpg`, alt: "Capa do Pack Sertanejo 2026" },
+  { src: `${BASE_PATH}/hero-packs/classicos-sertanejos.jpg`, alt: "Capa do Pack Clássicos Sertanejos" },
+  { src: `${BASE_PATH}/hero-packs/forro-2026.jpg`, alt: "Capa do Pack Forró 2026" },
+  { src: `${BASE_PATH}/hero-packs/pagodes-2026.jpg`, alt: "Capa do Pack Melhores Pagodes 2026" },
+  { src: `${BASE_PATH}/hero-packs/louvores-2026.jpg`, alt: "Capa do Pack Louvores 2026" },
+  { src: `${BASE_PATH}/hero-packs/rock-nacional.jpg`, alt: "Capa do Pack Rock Nacional" },
+  { src: `${BASE_PATH}/hero-packs/mpb-antigas.jpg`, alt: "Capa do Pack MPB Antigas" },
+  { src: `${BASE_PATH}/hero-packs/rock-internacional.jpg`, alt: "Capa do Pack Rock Internacional" },
+];
 
 const testimonials = [
   { name: "Cliente 01", summary: "Envie aqui o print do WhatsApp deste cliente.", message: "A qualidade ficou excelente na multimídia. Veio tudo muito bem organizado!" },
@@ -64,28 +77,14 @@ export default function BrazHitsPrincipal() {
         <a className="nav-offer" href="#ofertas">Ver oferta</a>
       </header>
 
-      <section className="hero" id="inicio">
-        <div className="hero-copy reveal is-visible">
-          <span className="eyebrow">CLIPES E MÚSICAS PARA MULTIMÍDIA</span>
-          <h1>O melhor da música.<br /><em>Pronto para dar play.</em></h1>
-          <p>Conteúdo em alta qualidade, organizado e atualizado para você reproduzir no carro, na TV, no PC ou no telão — mesmo sem internet.</p>
-          <div className="hero-pills" aria-label="Destaques da oferta">
-            <span>Full HD 1080p</span><span>Acesso vitalício</span><span>Sem mensalidade</span>
-          </div>
-        </div>
-
-        <div className="vsl-stage reveal is-visible">
-          <div className="vsl-glass">
-            <div className="vsl-placeholder">
-              <span className="video-label">VSL BRAZHITS</span>
-              <button className="play-button" type="button" aria-label="Reproduzir apresentação em vídeo"><span /></button>
-              <div className="vsl-copy"><strong>Seu vídeo de vendas entra aqui</strong><span>Envie a VSL depois para substituirmos este espaço.</span></div>
-            </div>
-          </div>
-          <a className="primary-button" href="#ofertas">Quero escolher meu Pack <Arrow /></a>
-          <p className="secure-line"><i aria-hidden="true" /> Compra protegida e acesso imediato</p>
-        </div>
-      </section>
+      <AnimatedMarqueeHero
+        tagline="CLIPES E MÚSICAS PARA MULTIMÍDIA"
+        title={<>O melhor acervo de clipes<br /><em>para sua multimídia</em></>}
+        description="Conteúdo em alta qualidade, organizado e atualizado para você reproduzir no carro, na TV, no PC ou no telão — mesmo sem internet."
+        ctaText="Quero escolher meu Pack"
+        ctaHref="#ofertas"
+        images={heroPackImages}
+      />
 
       <section className="section benefits section-reveal" id="beneficios">
         <div className="section-heading">

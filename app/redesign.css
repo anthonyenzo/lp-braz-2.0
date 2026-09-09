@@ -106,3 +106,54 @@ a{text-decoration:none;color:inherit}
   .testimonial-heading{display:block}.slider-controls{margin-top:20px}.trust-stats{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Hero com carrossel contínuo das capas dos packs. */
+.marquee-hero{position:relative;z-index:2;width:100%;padding:138px 0 84px;overflow:hidden}
+.marquee-hero:before{content:"";position:absolute;z-index:-2;left:50%;top:65px;width:min(1060px,94vw);height:610px;border:1px solid rgba(255,255,255,.7);border-radius:50%;background:radial-gradient(circle at 50% 22%,rgba(255,255,255,.78),rgba(216,237,255,.3) 42%,rgba(225,216,255,.22) 68%,transparent 72%);filter:blur(.2px);transform:translateX(-50%);pointer-events:none}
+.marquee-hero-orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(18px);pointer-events:none}
+.marquee-hero-orb-blue{width:420px;height:420px;right:-170px;top:155px;background:radial-gradient(circle,rgba(41,217,255,.32),rgba(22,119,255,.12) 52%,transparent 72%)}
+.marquee-hero-orb-violet{width:360px;height:360px;left:-180px;top:330px;background:radial-gradient(circle,rgba(138,99,255,.27),rgba(229,83,186,.1) 52%,transparent 72%)}
+.marquee-hero-copy{width:min(960px,calc(100% - 40px));display:flex;flex-direction:column;align-items:center;margin:0 auto;text-align:center}
+.marquee-hero h1{max-width:960px;margin:28px auto 22px;font-size:clamp(54px,7vw,88px);line-height:.94;letter-spacing:-.075em;text-wrap:balance}
+.marquee-hero h1 em{display:inline-block;background:linear-gradient(90deg,#1677ff,#7658ff 58%,#e553ba);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:normal}
+.marquee-hero-copy>p{max-width:720px;margin:0;color:var(--muted);font-size:clamp(20px,2.2vw,25px);line-height:1.5;letter-spacing:-.02em;text-wrap:balance}
+.marquee-hero-actions{width:100%;display:flex;flex-direction:column;align-items:center}
+.marquee-hero-button{margin-top:24px;will-change:transform}
+.marquee-stage{position:relative;width:100%;margin-top:44px;padding:18px 0 38px;overflow:hidden;mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 90%,transparent 100%)}
+.marquee-track{--marquee-gap:18px;width:max-content;display:flex;gap:var(--marquee-gap);padding-inline:9px;animation:packMarquee 42s linear infinite;will-change:transform}
+.marquee-card{flex:0 0 auto;width:clamp(156px,15vw,210px);aspect-ratio:1;margin:0;padding:7px;border:1px solid rgba(255,255,255,.95);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,255,255,.42));box-shadow:0 24px 58px rgba(48,75,132,.22),inset 0 1px 0 #fff;backdrop-filter:blur(22px);transform:rotate(-2deg)}
+.marquee-card:nth-child(2n){transform:rotate(2.3deg)}
+.marquee-card:nth-child(4n){transform:rotate(.8deg)}
+.marquee-card img{width:100%;height:100%;object-fit:cover;border-radius:23px}
+.marquee-edge{position:absolute;z-index:2;top:0;bottom:0;width:min(11vw,150px);pointer-events:none}
+.marquee-edge-left{left:0;background:linear-gradient(to right,rgba(244,248,255,.96),transparent)}
+.marquee-edge-right{right:0;background:linear-gradient(to left,rgba(244,248,255,.96),transparent)}
+@keyframes packMarquee{to{transform:translateX(calc(-50% - 9px))}}
+
+@media(max-width:700px){
+  .marquee-hero{padding:105px 0 59px}
+  .marquee-hero:before{top:62px;height:530px}
+  .marquee-hero-copy{width:min(calc(100% - 28px),700px)}
+  .marquee-hero .eyebrow{min-height:36px;padding:0 13px;font-size:12px;letter-spacing:.035em;white-space:nowrap}
+  .marquee-hero h1{margin:21px -3px 18px;font-size:clamp(43px,12vw,54px);line-height:.96}
+  .marquee-hero-copy>p{font-size:18px;line-height:1.48}
+  .marquee-hero .hero-pills{gap:7px;margin-top:22px}
+  .marquee-hero .hero-pills span{padding:9px 11px;font-size:13px}
+  .marquee-hero-button{min-height:62px;margin-top:20px;border-radius:20px;font-size:17px}
+  .marquee-hero .secure-line{margin-top:14px;font-size:13px}
+  .marquee-stage{margin-top:30px;padding:15px 0 30px}
+  .marquee-track{--marquee-gap:12px;gap:var(--marquee-gap);padding-inline:6px;animation-duration:34s}
+  .marquee-card{width:min(42vw,172px);padding:5px;border-radius:23px;box-shadow:0 17px 39px rgba(48,75,132,.2),inset 0 1px 0 #fff}
+  .marquee-card img{border-radius:18px}
+  .marquee-edge{width:30px}
+  @keyframes packMarquee{to{transform:translateX(calc(-50% - 6px))}}
+}
+
+@media(max-width:390px){
+  .marquee-hero{padding-top:98px}
+  .marquee-hero .eyebrow{font-size:11px}
+  .marquee-hero h1{font-size:41px}
+  .marquee-hero-copy>p{font-size:17px}
+  .marquee-hero .hero-pills span{font-size:12px}
+  .marquee-card{width:43vw}
+}
