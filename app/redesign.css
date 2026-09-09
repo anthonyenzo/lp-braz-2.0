@@ -114,7 +114,15 @@ a{text-decoration:none;color:inherit}
 .marquee-hero-orb-blue{width:420px;height:420px;right:-170px;top:155px;background:radial-gradient(circle,rgba(41,217,255,.32),rgba(22,119,255,.12) 52%,transparent 72%)}
 .marquee-hero-orb-violet{width:360px;height:360px;left:-180px;top:330px;background:radial-gradient(circle,rgba(138,99,255,.27),rgba(229,83,186,.1) 52%,transparent 72%)}
 .marquee-hero-copy{width:min(960px,calc(100% - 40px));display:flex;flex-direction:column;align-items:center;margin:0 auto;text-align:center}
-.marquee-hero h1{max-width:960px;margin:28px auto 22px;font-size:clamp(54px,7vw,88px);line-height:.94;letter-spacing:-.075em;text-wrap:balance}
+.hero-social-proof{display:inline-flex;align-items:center;gap:11px;min-height:46px;padding:5px 15px 5px 6px;border:1px solid rgba(255,255,255,.92);border-radius:999px;background:rgba(255,255,255,.62);box-shadow:inset 0 1px 0 #fff,0 12px 35px rgba(69,91,142,.11);backdrop-filter:blur(20px);color:#626b7e;font-size:14px;font-weight:650;white-space:nowrap}
+.hero-social-proof strong{color:var(--ink);font-weight:820}
+.hero-social-avatars{display:flex;align-items:center}
+.avatar-root{position:relative;display:grid;place-items:center;overflow:hidden;border-radius:50%;background:#e7edf8}
+.avatar-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.avatar-fallback{font-size:9px;font-weight:800;color:#536078}
+.hero-customer-avatar{width:34px;height:34px;margin-left:-8px;border:2px solid rgba(255,255,255,.96);box-shadow:0 2px 7px rgba(41,57,91,.18)}
+.hero-customer-avatar:first-child{margin-left:0}
+.marquee-hero h1{max-width:960px;margin:28px auto 22px;font-size:clamp(54px,7vw,88px);line-height:.98;letter-spacing:-.045em;text-wrap:balance}
 .marquee-hero h1 em{display:inline-block;background:linear-gradient(90deg,#1677ff,#7658ff 58%,#e553ba);-webkit-background-clip:text;background-clip:text;color:transparent;font-style:normal}
 .marquee-hero-copy>p{max-width:720px;margin:0;color:var(--muted);font-size:clamp(20px,2.2vw,25px);line-height:1.5;letter-spacing:-.02em;text-wrap:balance}
 .marquee-hero-actions{width:100%;display:flex;flex-direction:column;align-items:center}
@@ -134,8 +142,9 @@ a{text-decoration:none;color:inherit}
   .marquee-hero{padding:105px 0 59px}
   .marquee-hero:before{top:62px;height:530px}
   .marquee-hero-copy{width:min(calc(100% - 28px),700px)}
-  .marquee-hero .eyebrow{min-height:36px;padding:0 13px;font-size:12px;letter-spacing:.035em;white-space:nowrap}
-  .marquee-hero h1{margin:21px -3px 18px;font-size:clamp(43px,12vw,54px);line-height:.96}
+  .hero-social-proof{min-height:42px;gap:9px;padding:4px 12px 4px 5px;font-size:13px}
+  .hero-customer-avatar{width:31px;height:31px;margin-left:-7px}
+  .marquee-hero h1{margin:22px -3px 18px;font-size:clamp(43px,12vw,54px);line-height:1;letter-spacing:-.032em}
   .marquee-hero-copy>p{font-size:18px;line-height:1.48}
   .marquee-hero .hero-pills{gap:7px;margin-top:22px}
   .marquee-hero .hero-pills span{padding:9px 11px;font-size:13px}
@@ -151,8 +160,9 @@ a{text-decoration:none;color:inherit}
 
 @media(max-width:390px){
   .marquee-hero{padding-top:98px}
-  .marquee-hero .eyebrow{font-size:11px}
-  .marquee-hero h1{font-size:41px}
+  .hero-social-proof{gap:8px;padding-right:10px;font-size:12px}
+  .hero-customer-avatar{width:29px;height:29px;margin-left:-7px}
+  .marquee-hero h1{font-size:41px;letter-spacing:-.028em}
   .marquee-hero-copy>p{font-size:17px}
   .marquee-hero .hero-pills span{font-size:12px}
   .marquee-card{width:43vw}

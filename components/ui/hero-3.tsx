@@ -2,6 +2,7 @@
 
 import { motion, MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface MarqueeHeroImage {
   src: string;
@@ -9,7 +10,7 @@ export interface MarqueeHeroImage {
 }
 
 interface AnimatedMarqueeHeroProps {
-  tagline: string;
+  customerAvatars: MarqueeHeroImage[];
   title: ReactNode;
   description: string;
   ctaText: string;
@@ -23,7 +24,7 @@ const entrance = {
 };
 
 export function AnimatedMarqueeHero({
-  tagline,
+  customerAvatars,
   title,
   description,
   ctaText,
@@ -39,15 +40,23 @@ export function AnimatedMarqueeHero({
       <div className="marquee-hero-orb marquee-hero-orb-violet" aria-hidden="true" />
 
       <div className="marquee-hero-copy">
-        <motion.span
-          className="eyebrow"
+        <motion.div
+          className="hero-social-proof"
           initial="hidden"
           animate="visible"
           variants={entrance}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          {tagline}
-        </motion.span>
+          <span className="hero-social-avatars" aria-hidden="true">
+            {customerAvatars.map((avatar, index) => (
+              <Avatar className="hero-customer-avatar" key={avatar.src}>
+                <AvatarFallback>C{index + 1}</AvatarFallback>
+                <AvatarImage src={avatar.src} alt="" loading="eager" decoding="async" />
+              </Avatar>
+            ))}
+          </span>
+          <span><strong>+10.000</strong> clientes ativos</span>
+        </motion.div>
 
         <motion.h1
           initial="hidden"

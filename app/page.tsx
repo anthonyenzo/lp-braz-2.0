@@ -19,6 +19,13 @@ const heroPackImages: MarqueeHeroImage[] = [
   { src: `${BASE_PATH}/hero-packs/rock-internacional.jpg`, alt: "Capa do Pack Rock Internacional" },
 ];
 
+const heroCustomerAvatars: MarqueeHeroImage[] = [
+  { src: `${BASE_PATH}/customer-avatars/cliente-1.jpg`, alt: "Cliente da BrazHits" },
+  { src: `${BASE_PATH}/customer-avatars/cliente-2.jpg`, alt: "Cliente da BrazHits" },
+  { src: `${BASE_PATH}/customer-avatars/cliente-3.jpg`, alt: "Cliente da BrazHits" },
+  { src: `${BASE_PATH}/customer-avatars/cliente-4.jpg`, alt: "Cliente da BrazHits" },
+];
+
 const testimonials = [
   { name: "Cliente 01", summary: "Envie aqui o print do WhatsApp deste cliente.", message: "A qualidade ficou excelente na multimídia. Veio tudo muito bem organizado!" },
   { name: "Cliente 02", summary: "Envie aqui o próximo print de depoimento.", message: "Baixei as pastas e já consegui reproduzir. Muito mais prático do que procurar um por um." },
@@ -78,7 +85,7 @@ export default function BrazHitsPrincipal() {
       </header>
 
       <AnimatedMarqueeHero
-        tagline="CLIPES E MÚSICAS PARA MULTIMÍDIA"
+        customerAvatars={heroCustomerAvatars}
         title={<>O melhor acervo de clipes<br /><em>para sua multimídia</em></>}
         description="Conteúdo em alta qualidade, organizado e atualizado para você reproduzir no carro, na TV, no PC ou no telão — mesmo sem internet."
         ctaText="Quero escolher meu Pack"
