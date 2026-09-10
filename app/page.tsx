@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import { AnimatedMarqueeHero, type MarqueeHeroImage } from "@/components/ui/hero-3";
 
-const CHECKOUT_COMPLETE = "https://checkout.brazhits.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
-const CHECKOUT_SERTANEJO = "https://checkout.brazhits.com.br/checkout/cms52ikdc02i901px1sn02df1?offer=hmf38kc";
+const CHECKOUT_COMPLETE = "https://checkout.wiven.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
+const CHECKOUT_SERTANEJO = "https://checkout.wiven.com.br/checkout/cms52ikdc02i901px1sn02df1?offer=hmf38kc";
 const WHATSAPP = "https://wa.me/5538984020274?text=Ol%C3%A1!%20Vim%20pelo%20suporte%20da%20BrazHits";
 const BASE_PATH = process.env.NEXT_PUBLIC_DEPLOY_BASE_PATH ?? "";
 
@@ -167,9 +167,15 @@ export default function BrazHitsPrincipal() {
             <div className="offer-top"><span className="offer-type">SUPER PACK</span><h3>Todos os Clipes</h3><p>O maior acervo da BrazHits reunido em uma única compra.</p></div>
             <div className="offer-amount"><strong>+2.000</strong><span>clipes em MP4<br />Full HD 1080p</span></div>
             <ul>
-              <li><Check /> Todos os gêneros disponíveis</li><li><Check /> Pastas organizadas por ritmo</li><li><Check /> Acesso vitalício</li><li><Check /> Atualizações mensais</li><li><Check /> Grupo VIP no WhatsApp</li><li><Check /> 15 dias de garantia</li>
+              <li><Check /> Todos os gêneros disponíveis</li><li><Check /> Pastas organizadas por ritmo</li><li><Check /> Acesso vitalício</li><li><Check /> Atualizações mensais</li><li><Check /> 15 dias de garantia</li>
             </ul>
-            <div className="price"><span>Pagamento único</span><strong><sup>R$</sup> 67<small>,00</small></strong></div>
+            <div className="genre-block">
+              <span>Gêneros inclusos</span>
+              <div className="genre-list">
+                <span>Sertanejo 2026</span><span>Sertanejo Raiz</span><span>Pagode 2026</span><span>Forró e Arrocha</span><span>Gospel 2026</span><span>Rock Nacional</span><span>Rock Internacional</span><span>MPB Antigo</span>
+              </div>
+            </div>
+            <div className="price"><span className="price-copy">Pagamento único<small>Separados sairiam por <s>R$ 110,00</s></small></span><strong><sup>R$</sup> 67<small>,00</small></strong></div>
             <a className="offer-button" href={CHECKOUT_COMPLETE} target="_blank" rel="noopener noreferrer">Quero todos os clipes <Arrow /></a>
           </article>
 
@@ -179,7 +185,7 @@ export default function BrazHitsPrincipal() {
             <ul>
               <li><Check /> +500 clipes sertanejos 1080p</li><li><Check /> +1.000 músicas em MP3</li><li><Check /> Sertanejo, modão e forró</li><li><Check /> Acesso vitalício</li><li><Check /> Grupo VIP no WhatsApp</li><li><Check /> 15 dias de garantia</li>
             </ul>
-            <div className="price"><span>Pagamento único</span><strong><sup>R$</sup> 26<small>,90</small></strong></div>
+            <div className="price"><span className="price-copy">Pagamento único<small>De <s>R$ 77,90</s> por apenas</small></span><strong><sup>R$</sup> 26<small>,90</small></strong></div>
             <a className="offer-button secondary" href={CHECKOUT_SERTANEJO} target="_blank" rel="noopener noreferrer">Quero clipes + músicas <Arrow /></a>
           </article>
         </div>
