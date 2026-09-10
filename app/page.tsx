@@ -28,10 +28,10 @@ const heroCustomerAvatars: MarqueeHeroImage[] = [
 ];
 
 const testimonials = [
-  { name: "Cliente 01", summary: "Envie aqui o print do WhatsApp deste cliente.", message: "A qualidade ficou excelente na multimídia. Veio tudo muito bem organizado!" },
-  { name: "Cliente 02", summary: "Envie aqui o próximo print de depoimento.", message: "Baixei as pastas e já consegui reproduzir. Muito mais prático do que procurar um por um." },
-  { name: "Cliente 03", summary: "Este card está pronto para receber uma imagem.", message: "Gostei demais da variedade. Agora tenho música para qualquer momento." },
-  { name: "Cliente 04", summary: "Substituiremos este modelo pelo print real.", message: "O grupo de atualizações fez toda diferença. Recomendo a BrazHits!" },
+  { name: "Carlos Eduardo", photo: `${BASE_PATH}/testimonial-clients/carlos-eduardo.jpg`, message: "A qualidade ficou excelente na multimídia. Veio tudo muito bem organizado!", product: "Pack Completo — Todos os Clipes", productDetails: "+2.000 clipes · 8 gêneros · Full HD 1080p" },
+  { name: "Marcio Xavier", photo: `${BASE_PATH}/testimonial-clients/marcio-xavier.jpg`, message: "Baixei as pastas e já consegui reproduzir. Muito mais prático do que procurar um por um.", product: "Pack Completo — Todos os Clipes", productDetails: "+2.000 clipes · 8 gêneros · Full HD 1080p" },
+  { name: "Leo DJ", photo: `${BASE_PATH}/testimonial-clients/leo-dj.jpg`, message: "Gostei demais da variedade. Agora tenho música para qualquer momento.", product: "Pack Completo — Todos os Clipes", productDetails: "+2.000 clipes · 8 gêneros · Full HD 1080p" },
+  { name: "Junior", photo: `${BASE_PATH}/testimonial-clients/junior.jpg`, message: "O grupo de atualizações fez toda diferença. Recomendo a BrazHits!", product: "Sertanejo Completo — Clipes + Músicas", productDetails: "+500 clipes · +1.000 músicas · acesso vitalício" },
 ] as const;
 
 const faqs = [
@@ -142,21 +142,25 @@ export default function BrazHitsPrincipal() {
 
       <section className="section testimonials section-reveal" id="depoimentos">
         <div className="section-heading testimonial-heading">
-          <div><span className="section-kicker">QUEM COMPRA, CONTA</span><h2>Experiências reais.<br /><em>Sem roteiro.</em></h2></div>
+          <div><span className="section-kicker">QUEM COMPRA, CONTA</span><h2>Feedbacks reais.<br /><em>Sem roteiro.</em></h2></div>
           <div className="slider-controls" aria-label="Controles dos depoimentos">
             <button type="button" onClick={() => moveTestimonials(-1)} aria-label="Depoimento anterior"><span /></button>
             <button type="button" onClick={() => moveTestimonials(1)} aria-label="Próximo depoimento"><span /></button>
           </div>
         </div>
         <div className="testimonial-slider" ref={sliderRef}>
-          {testimonials.map((item, index) => (
+          {testimonials.map((item) => (
             <article className="glass-card testimonial-card" key={item.name}>
               <div className="whatsapp-placeholder">
-                <div className="whatsapp-top"><span>{item.name.slice(-2)}</span><strong>{item.name}</strong><i>•••</i></div>
+                <div className="whatsapp-top"><img className="testimonial-avatar" src={item.photo} alt={`Foto de ${item.name}`} loading="lazy" decoding="async" /><strong>{item.name}</strong><i>•••</i></div>
                 <div className="chat-bubble">{item.message}</div>
-                <div className="upload-template"><span>+</span><strong>PRINT DO WHATSAPP</strong><p>{item.summary}</p></div>
+                <div className="purchased-pack">
+                  <span className="purchased-pack-label"><i aria-hidden="true" /> Produto adquirido</span>
+                  <strong>{item.product}</strong>
+                  <p>{item.productDetails}</p>
+                </div>
               </div>
-              <div className="testimonial-meta"><span>★★★★★</span><p>Cliente verificado · modelo {String(index + 1).padStart(2, "0")}</p></div>
+              <div className="testimonial-meta"><span>★★★★★</span><p>Cliente verificado</p></div>
             </article>
           ))}
         </div>
