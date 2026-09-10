@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatedMarqueeHero, type MarqueeHeroImage } from "@/components/ui/hero-3";
 
 const CHECKOUT_COMPLETE = "https://checkout.wiven.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=osiy9l6";
+const CHECKOUT_DOWNSELL_COMPLETE = "https://checkout.wiven.com.br/checkout/cmsrukfkk00sw01pw02ag439i?offer=HVPM5W8";
 const CHECKOUT_SERTANEJO = "https://checkout.wiven.com.br/checkout/cms52ikdc02i901px1sn02df1?offer=hmf38kc";
 const WHATSAPP = "https://wa.me/5538984020274?text=Ol%C3%A1!%20Vim%20pelo%20suporte%20da%20BrazHits";
 const BASE_PATH = process.env.NEXT_PUBLIC_DEPLOY_BASE_PATH ?? "";
@@ -50,6 +51,7 @@ function Check() {
 
 export default function BrazHitsPrincipal() {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [showDownsell, setShowDownsell] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add("motion-ready");
@@ -68,6 +70,23 @@ export default function BrazHitsPrincipal() {
       document.documentElement.classList.remove("motion-ready");
     };
   }, []);
+
+  useEffect(() => {
+    if (!showDownsell) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShowDownsell(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [showDownsell]);
 
   const moveTestimonials = (direction: number) => {
     sliderRef.current?.scrollBy({ left: direction * Math.min(window.innerWidth * 0.82, 460), behavior: "smooth" });
@@ -186,10 +205,32 @@ export default function BrazHitsPrincipal() {
               <li><Check /> +500 clipes sertanejos 1080p</li><li><Check /> +1.000 músicas em MP3</li><li><Check /> Sertanejo, modão e forró</li><li><Check /> Acesso vitalício</li><li><Check /> Grupo VIP no WhatsApp</li><li><Check /> 15 dias de garantia</li>
             </ul>
             <div className="price"><span className="price-copy">Pagamento único<small>De <s>R$ 77,90</s> por apenas</small></span><strong><sup>R$</sup> 26<small>,90</small></strong></div>
-            <a className="offer-button secondary" href={CHECKOUT_SERTANEJO} target="_blank" rel="noopener noreferrer">Quero clipes + músicas <Arrow /></a>
+            <button className="offer-button secondary" type="button" onClick={() => setShowDownsell(true)}>Quero clipes + músicas <Arrow /></button>
           </article>
         </div>
       </section>
+
+      {showDownsell && (
+        <div className="downsell-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setShowDownsell(false)}>
+          <section className="downsell-modal" role="dialog" aria-modal="true" aria-labelledby="downsell-title">
+            <button className="downsell-close" type="button" aria-label="Fechar oferta especial" onClick={() => setShowDownsell(false)}>×</button>
+            <span className="downsell-kicker">DESCONTO-PRESENTE LIBERADO</span>
+            <h2 id="downsell-title">Espere! Leve o acervo completo por <em>R$ 57</em></h2>
+            <p>Por apenas <strong>R$ 30,10 a mais</strong>, você troca a oferta sertaneja por mais de 2.000 clipes em 8 gêneros, todos organizados em Full HD.</p>
+            <div className="downsell-price">
+              <span><s>R$ 67,00</s><small>oferta normal</small></span>
+              <strong><sup>R$</sup> 57<small>,00</small></strong>
+            </div>
+            <ul>
+              <li><Check /> +2.000 clipes em Full HD 1080p</li>
+              <li><Check /> Sertanejo, pagode, forró, gospel, rock e MPB</li>
+              <li><Check /> Acesso vitalício e atualizações mensais</li>
+            </ul>
+            <a className="downsell-accept" href={CHECKOUT_DOWNSELL_COMPLETE} target="_blank" rel="noopener noreferrer">Sim, quero o Pack Completo por R$ 57 <Arrow /></a>
+            <a className="downsell-decline" href={CHECKOUT_SERTANEJO} target="_blank" rel="noopener noreferrer">Não quero o desconto. Continuar com a oferta de R$ 26,90</a>
+          </section>
+        </div>
+      )}
 
       <section className="section guarantee section-reveal">
         <div className="guarantee-card glass-card">
